@@ -295,7 +295,8 @@ run_fgsea <- function(gmt_file_path, rnk_list, min_size, max_size) {
   )
   
   fgsea_res <- fgsea_res |>
-    tibble::as_tibble()
+    tibble::as_tibble() |>
+    dplyr::filter(size >= min_size, size <= max_size)
   
   return(fgsea_res)
 }
