@@ -44,8 +44,7 @@ make_se <- function(counts_csv, metafile_csv, selected_times) {
     rownames(count_matrix) <- gene_ids
     
     meta_df <- meta_df[match(colnames(count_matrix), meta_df$samplename), ]
-    meta_df$timepoint <- factor(meta_df$timepoint)
-    meta_df$timepoint <- stats::relevel(meta_df$timepoint, ref = "vP0")
+    meta_df$timepoint <- factor(meta_df$timepoint, levels = c("vP0", "vAd"))
     
     coldata <- S4Vectors::DataFrame(
       samplename = meta_df$samplename,
@@ -285,6 +284,11 @@ run_fgsea <- function(gmt_file_path, rnk_list, min_size, max_size) {
   
   pathways <- fgsea::gmtPathways(gmt_file_path)
   
+  pathways <- pathways[
+    lengths(pathways) >= min_size &
+      lengths(pathways) <= max_size
+  ]
+  
   fgsea_res <- suppressWarnings(
     fgsea::fgsea(
       pathways = pathways,
@@ -294,9 +298,7 @@ run_fgsea <- function(gmt_file_path, rnk_list, min_size, max_size) {
     )
   )
   
-  fgsea_res <- fgsea_res |>
-    tibble::as_tibble() |>
-    dplyr::filter(size >= min_size, size <= max_size)
+  fgsea_res <- tibble::as_tibble(fgsea_res)
   
   return(fgsea_res)
 }
