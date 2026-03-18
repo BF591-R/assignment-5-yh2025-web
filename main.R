@@ -282,20 +282,18 @@ make_ranked_log2fc <- function(labeled_results, id2gene_path) {
 #'
 #' @examples fgsea_results <- run_fgsea('data/m2.cp.v2023.1.Mm.symbols.gmt', rnk_list, 15, 500)
 run_fgsea <- function(gmt_file_path, rnk_list, min_size, max_size) {
- 
-    pathways <- fgsea::gmtPathways(gmt_file_path)
-    
-    fgsea_res <- fgsea::fgsea(
-      pathways = pathways,
-      stats = rnk_list,
-      minSize = min_size,
-      maxSize = max_size
-    )
-    
-    fgsea_res <- tibble::as_tibble(fgsea_res)
-    
-    return(fgsea_res)
- 
+  
+  pathways <- fgsea::gmtPathways(gmt_file_path)
+  
+  fgsea_res <- fgsea::fgsea(
+    pathways = pathways,
+    stats = rnk_list,
+    minSize = min_size,
+    maxSize = max_size
+  )
+  
+  return(as_tibble(fgsea_res))
+
 }
 
 #' Function to plot top ten positive NES and top ten negative NES pathways
