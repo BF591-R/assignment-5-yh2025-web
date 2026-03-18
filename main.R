@@ -327,6 +327,8 @@ run_fgsea <- function(gmt_file_path, rnk_list, min_size, max_size) {
   tibble::as_tibble(fgsea_res)
 }
 
+# debug rerun
+
 #' Function to plot top ten positive NES and top ten negative NES pathways
 #' in a barchart
 #'
