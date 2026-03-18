@@ -331,5 +331,4 @@ top_pathways <- function(fgsea_results, num_paths){
       ggplot2::labs(x = "Pathway", y = "NES")
     
     return(p)
-
 }
